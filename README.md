@@ -8,6 +8,12 @@ Breakout game made in Raylib with C++ and the object-oriented paradigm (OOP).
 2. From the Explorer Window of VS Code navigate to the src folder and double click on the main.cpp file.
 3. Press F5 on the keyboard to compile and run the program.
 
+If you going to do changes in the code. Change to branch 'develop':
+
+```bash
+git branch develop
+```
+
 [Setup video tutorial here](https://www.youtube.com/watch?v=PaAcVk5jUd8")
 
 ## To-Do List
