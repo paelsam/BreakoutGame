@@ -83,6 +83,27 @@
                 "isDefault": false
             },
             "detail": "compiler: C:\\raylib\\mingw\\bin\\g++.exe"
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: clang-cl.exe compilar archivo activo",
+            "command": "C:\\mingw64\\bin\\clang-cl.exe",
+            "args": [
+                "-fcolor-diagnostics",
+                "-fansi-escape-codes",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build",
+            "detail": "compilador: C:\\mingw64\\bin\\clang-cl.exe"
         }
     ]
 }
