@@ -23,16 +23,28 @@ void Paddle::draw() {
 }
 
 void Paddle::collisionWith(Ball &ball) {
-    Vector2 checkBall = { ball.getPosition().x - ball.getRadius(), ball.getPosition().y - ball.getRadius() };
-    checkBall.x += ball.getSpeed().x;
-    checkBall.y += ball.getSpeed().y;
+    // Vector2 checkBall = { ball.getPosition().x - ball.getRadius(), ball.getPosition().y - ball.getRadius() };
+    // checkBall.x += ball.getSpeed().x;
+    // checkBall.y += ball.getSpeed().y;
 
     // Verificar colisión entre la paleta y la pelota
-    if (CheckCollisionCircleRec(checkBall, ball.getRadius(), rectangle)) {
-        ball.setSpeed({ -ball.getSpeed().x, -ball.getSpeed().y });
-        std::cout << "Actual Position: " << ball.getPosition().x << ", " << ball.getPosition().y << std::endl;
-        std::cout << "Predit: " << checkBall.x << ", " << checkBall.y << std::endl;
-    } else {
-        ball.setSpeed({ ball.getSpeed().x, ball.getSpeed().y });
-    }
+    if (CheckCollisionCircleRec(ball.getPosition(), ball.getRadius(), rectangle)) {
+    //    ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
+        
+        if (
+            (ball.getPosition().x + ball.getRadius() >= rectangle.x - rectangle.height / 2) || 
+            (ball.getPosition().x + ball.getRadius() >= rectangle.x + rectangle.height / 2)
+        ) ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
+
+        // if (ball.getSpeed().y > 0){
+        //     ball.setSpeed({ (ball.getPosition().x - rectangle.x)/(rectangle.width/2)*3, -ball.getSpeed().y });
+        // }
+
+        
+        // std::cout << "Actual Position: " << ball.getPosition().x << ", " << ball.getPosition().y << std::endl;
+        // std::cout << "Predit: " << checkBall.x << ", " << checkBall.y << std::endl;
+    } 
+    // else {
+    //     ball.setSpeed({ ball.getSpeed().x, ball.getSpeed().y });
+    // }
 }

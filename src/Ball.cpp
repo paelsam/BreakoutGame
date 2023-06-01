@@ -13,12 +13,9 @@ void Ball::update() {
     position.y += speed.y;
 
     // Rebotar la pelota cuando alcanza los límites de la pantalla
-    if (position.x < 0 || position.x + radius > GetScreenWidth()) {
-        speed.x = -speed.x;
-    }
-    if (position.y < 0 || position.y + radius > GetScreenHeight()) {
-        speed.y = -speed.y;
-    }
+    if (((position.x + radius) >= GetScreenWidth()) || ((position.x - radius) <= 0)) speed.x *= -1;
+    if ((position.y - radius) <= 0) speed.y *= -1;
+    if ((position.y + radius) >= GetScreenHeight()) speed.y *= -1;
 }
 
 void Ball::draw() {
