@@ -5,7 +5,7 @@ Ball::Ball(Vector2 position, Vector2 speed, float radius, Color color) {
     this->speed = speed;
     this->radius = radius;
     this->color = color;
-    this->life=10;
+    this->life=3;
 };
 
 void Ball::update() {
@@ -60,6 +60,10 @@ bool Ball::getDownCollition(){
 
 int Ball::getLife(){
     return life;
+}
+
+void Ball::setLife(int life){
+    this->life=life;
 }
 // void Ball::setDownCollition(bool downCollition){
 //     this->downCollition = downCollition;

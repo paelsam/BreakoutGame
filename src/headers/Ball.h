@@ -24,6 +24,7 @@ class Ball : public GameObject {
         void setDownCollition(bool downCollition);
         void resetBall();
         int getLife();
+        void setLife(int life);
 };
 
 
