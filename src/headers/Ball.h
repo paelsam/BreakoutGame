@@ -8,6 +8,8 @@ class Ball : public GameObject {
         Vector2 speed;
         float radius;
         Color color;
+        bool downCollition;
+        int life;
     public: 
         Ball(Vector2 position, Vector2 speed, float radius, Color color);
         void update();
@@ -18,6 +20,10 @@ class Ball : public GameObject {
         Vector2 getSpeed();
         void setSpeed(Vector2 speed);
         float getRadius();
+        bool getDownCollition();
+        void setDownCollition(bool downCollition);
+        void resetBall();
+        int getLife();
 };
 
 

@@ -10,7 +10,7 @@ int main()
     const int screenHeight = 600;
     const int ROWS = 4;
     const int COLUMNS = 20;
-    int life=2;
+    // int life=10;
 
     Brick *bricks[ROWS][COLUMNS];
     InitWindow(screenWidth, screenHeight, "Breakout");
@@ -42,6 +42,8 @@ int main()
         BeginDrawing();
             ClearBackground(WHITE);
 
+            
+
             for (int i = 0; i < ROWS; i++)
             {
                 for (int j = 0; j < COLUMNS - 2; j++)
@@ -64,6 +66,16 @@ int main()
 
             DrawText(TextFormat("%i", int(GetTime())), 10, 10, 20, GREEN);
             std::cout << score << std::endl;
+
+            // if(ball.getDownCollition()){
+            //     life--;
+            //     ball.setDownCollition(false);
+    
+            if (ball.getLife()>=0){
+                DrawText(TextFormat("%i",ball.getLife()),GetScreenWidth()-20, 10, 20, GREEN);
+
+            }
+            
 
             EndDrawing();
     }
