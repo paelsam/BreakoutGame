@@ -12,7 +12,7 @@ class Brick : public GameObject {
     public: 
         Brick(Vector2 position, Vector2 size, Color color);
         ~Brick();
-        void checkCollision(Ball &ball);
+        void collisionWith(Ball &ball);
         void draw();
         void update();
         Vector2 getPosition();

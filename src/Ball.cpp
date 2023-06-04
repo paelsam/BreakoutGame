@@ -22,7 +22,6 @@ void Ball::update() {
         int speed_choices[2]={1,-1};
         speed.x *= speed_choices[GetRandomValue(0,1)];
         life--;
-        
     }
 }
 

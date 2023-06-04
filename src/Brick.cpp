@@ -14,48 +14,41 @@ void Brick::draw()
     DrawRectangleRec(rectangle, color);
 }
 
-void Brick::checkCollision(Ball &ball)
+void Brick::collisionWith(Ball &ball)
 {
-    // Vector2 checkBall = { ball.getPosition().x - ball.getRadius(), ball.getPosition().y - ball.getRadius() };
-    // checkBall.x += ball.getSpeed().x;
-    // checkBall.y += ball.getSpeed().y;
+    // Sides of rectangle
+    int left = rectangle.x;
+    int right = rectangle.x + rectangle.width;
+    int top = rectangle.y; 
+    int bottom = rectangle.y + rectangle.height;
 
-    // if (CheckCollisionCircleRec(checkBall, ball.getRadius(), rectangle)) {
-    //     this->active = false;
-    //     ball.setSpeed({ ball.getSpeed().x, ball.getSpeed().y * -1 });
-    // };
+    // Previus position ball
+    int px = ball.getPosition().x - ball.getSpeed().x;
+    int py = ball.getPosition().y - ball.getSpeed().y;
 
-    // Hit below
-    if (((ball.getPosition().y - ball.getRadius()) <= (rectangle.y + rectangle.height / 2)) &&
-        ((ball.getPosition().y - ball.getRadius()) > (rectangle.y + rectangle.height / 2 + ball.getSpeed().y)) &&
-        ((std::abs(ball.getPosition().x - rectangle.x)) < (rectangle.width / 2 + ball.getRadius() * 2 / 3)) && (ball.getSpeed().y < 0))
-    {
+    if (CheckCollisionCircleRec(ball.getPosition(), ball.getRadius(), rectangle)) {
+
+        if( px < left ) {
+            if ( ball.getSpeed().x > 0 )
+                ball.setSpeed({ -ball.getSpeed().x, ball.getSpeed().y });
+            ball.setPosition({ left - ball.getRadius(), ball.getPosition().y });
+        }
+        else if( px > right ) {
+            if ( ball.getSpeed().x < 0)
+                ball.setSpeed({ -ball.getSpeed().x, ball.getSpeed().y });
+            ball.setPosition({ right + ball.getRadius(), ball.getPosition().y });
+        }
+        else if ( py < top ) {
+            if ( ball.getSpeed().y > 0)
+                ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
+            ball.setPosition({ ball.getPosition().x, top - ball.getRadius() });
+        }
+        else if ( py > bottom ) {
+            if ( ball.getSpeed().y < 0 )
+                ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
+            ball.setPosition({ ball.getPosition().x, bottom + ball.getRadius() });
+        }
         active = false;
-        ball.setSpeed({ball.getSpeed().x, -ball.getSpeed().y});
-    }
-    // Hit above
-    else if (((ball.getPosition().y + ball.getRadius()) >= (rectangle.y - rectangle.height / 2)) &&
-             ((ball.getPosition().y + ball.getRadius()) < (rectangle.y - rectangle.height / 2 + ball.getSpeed().y)) &&
-             ((std::abs(ball.getPosition().x - rectangle.x)) < (rectangle.width / 2 + ball.getRadius() * 2 / 3)) && (ball.getSpeed().y > 0))
-    {
-        active = false;
-        ball.setSpeed({ball.getSpeed().x, -ball.getSpeed().y});
-    }
-    // Hit left
-    else if (((ball.getPosition().x + ball.getRadius()) >= (rectangle.x - rectangle.width / 2)) &&
-             ((ball.getPosition().x + ball.getRadius()) < (rectangle.x - rectangle.width / 2 + ball.getSpeed().x)) &&
-             ((std::abs(ball.getPosition().y - rectangle.y)) < (rectangle.height / 2 + ball.getRadius() * 2 / 3)) && (ball.getSpeed().x > 0))
-    {
-        active = false;
-        ball.setSpeed({-ball.getSpeed().x, ball.getSpeed().y});
-    }
-    // Hit right
-    else if (((ball.getPosition().x - ball.getRadius()) <= (rectangle.x + rectangle.width / 2)) &&
-             ((ball.getPosition().x - ball.getRadius()) > (rectangle.x + rectangle.width / 2 + ball.getSpeed().x)) &&
-             ((std::abs(ball.getPosition().y - rectangle.y)) < (rectangle.height / 2 + ball.getRadius() * 2 / 3)) && (ball.getSpeed().x < 0))
-    {
-        active = false;
-        ball.setSpeed({-ball.getSpeed().x, ball.getSpeed().y});
     }
 }
 

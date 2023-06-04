@@ -23,28 +23,37 @@ void Paddle::draw() {
 }
 
 void Paddle::collisionWith(Ball &ball) {
-    // Vector2 checkBall = { ball.getPosition().x - ball.getRadius(), ball.getPosition().y - ball.getRadius() };
-    // checkBall.x += ball.getSpeed().x;
-    // checkBall.y += ball.getSpeed().y;
+    // Sides of rectangle
+    int left = rectangle.x;
+    int right = rectangle.x + rectangle.width;
+    int top = rectangle.y; 
+    int bottom = rectangle.y + rectangle.height;
 
-    // Verificar colisión entre la paleta y la pelota
+    // Previus position ball
+    int px = ball.getPosition().x - ball.getSpeed().x;
+    int py = ball.getPosition().y - ball.getSpeed().y;
+
     if (CheckCollisionCircleRec(ball.getPosition(), ball.getRadius(), rectangle)) {
-    //    ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
-        
-        if (
-            (ball.getPosition().x + ball.getRadius() >= rectangle.x - rectangle.height / 2) || 
-            (ball.getPosition().x + ball.getRadius() >= rectangle.x + rectangle.height / 2)
-        ) ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
-
-        // if (ball.getSpeed().y > 0){
-        //     ball.setSpeed({ (ball.getPosition().x - rectangle.x)/(rectangle.width/2)*3, -ball.getSpeed().y });
-        // }
-
-        
-        // std::cout << "Actual Position: " << ball.getPosition().x << ", " << ball.getPosition().y << std::endl;
-        // std::cout << "Predit: " << checkBall.x << ", " << checkBall.y << std::endl;
-    } 
-    // else {
-    //     ball.setSpeed({ ball.getSpeed().x, ball.getSpeed().y });
-    // }
+        if( px < left ) {
+            if ( ball.getSpeed().x > 0 )
+                ball.setSpeed({ -ball.getSpeed().x, ball.getSpeed().y });
+            ball.setPosition({ left - ball.getRadius(), ball.getPosition().y });
+        }
+        else if( px > right ) {
+            if ( ball.getSpeed().x < 0)
+                ball.setSpeed({ -ball.getSpeed().x, ball.getSpeed().y });
+            ball.setPosition({ right + ball.getRadius(), ball.getPosition().y });
+        }
+        else if ( py < top ) {
+            if ( ball.getSpeed().y > 0)
+                ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
+            ball.setPosition({ ball.getPosition().x, top - ball.getRadius() });
+        }
+        else if ( py > bottom ) {
+            if ( ball.getSpeed().y < 0 )
+                ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
+            ball.setPosition({ ball.getPosition().x, bottom + ball.getRadius() });
+        }
+        std::cout << ball.getSpeed().x << ", " << ball.getSpeed().y << std::endl;
+    }
 }
