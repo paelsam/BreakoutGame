@@ -54,6 +54,5 @@ void Paddle::collisionWith(Ball &ball) {
                 ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
             ball.setPosition({ ball.getPosition().x, bottom + ball.getRadius() });
         }
-        std::cout << ball.getSpeed().x << ", " << ball.getSpeed().y << std::endl;
     }
 }

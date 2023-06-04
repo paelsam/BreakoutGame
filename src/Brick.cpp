@@ -48,7 +48,7 @@ void Brick::collisionWith(Ball &ball)
                 ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
             ball.setPosition({ ball.getPosition().x, bottom + ball.getRadius() });
         }
-        active = false;
+        this->active = false;
     }
 }
 
