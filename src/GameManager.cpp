@@ -28,13 +28,24 @@ GameManager::GameManager(int screenWidth, int screenHeight) :
 }
 
 void GameManager::updateGame() {
+
     this->score = GetTime();
+    
+    // Check brick collision with ball 
     for ( std::vector<Brick> &brickRow : bricks) {
         for ( Brick &brick : brickRow ) {
             // Contará la colisión solo a los ladrillos activos
             if (brick.getActive())
                 brick.collisionWith(ball);
         }
+    }
+
+    if ( ball.getPosition().y + ball.getRadius() >= GetScreenHeight() ) {
+        this->lives--;
+        ball.setPosition({  static_cast<float>(GetScreenWidth()) / 2, static_cast<float>(GetScreenHeight()) / 2 });
+        int speed_choices[2]={1,-1};
+        int speedX = speed_choices[GetRandomValue(0,1)];
+        ball.setSpeed({ static_cast<float>(speedX ),  ball.getSpeed().y });
     }
 
     paddle.collisionWith(ball);
@@ -54,12 +65,12 @@ void GameManager::drawGame() {
     }
 
     DrawText(TextFormat("Score: %i", this->score), 10, 10, 20, GREEN);
-    DrawText(TextFormat("Lives: %i", lives), GetScreenWidth() - 100, 10, 20, GREEN);
+    DrawText(TextFormat("Lives: %i", this->lives), GetScreenWidth() - 100, 10, 20, GREEN);
 }
 
 
 bool GameManager::isGameOver() {
-    if ( ball.getPosition().y >= GetScreenHeight() || lives == 0 ) 
+    if ( lives == 0 ) 
         return true;
     return false;
 }

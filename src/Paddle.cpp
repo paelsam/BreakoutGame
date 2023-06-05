@@ -2,7 +2,11 @@
 #include "headers/Paddle.h"
 
 Paddle::Paddle(Vector2 position, float width, float height, float speed, Color color) 
-    : rectangle({position.x, position.y, width, height}), speed(speed), color(color) {};
+    : rectangle({position.x, position.y, width, height}), speed(speed), color(color) 
+{
+        // Sonido cuando colisiona con el paddle
+        this->sonido = LoadSound("src/assets/music/Pop.ogg");
+};
 
 void Paddle::update() {
     // Mover la paleta hacia la izquierda
@@ -23,6 +27,7 @@ void Paddle::draw() {
 }
 
 void Paddle::collisionWith(Ball &ball) {
+
     // Sides of rectangle
     int left = rectangle.x;
     int right = rectangle.x + rectangle.width;
@@ -54,5 +59,6 @@ void Paddle::collisionWith(Ball &ball) {
                 ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
             ball.setPosition({ ball.getPosition().x, bottom + ball.getRadius() });
         }
+        PlaySound(this->sonido);
     }
 }

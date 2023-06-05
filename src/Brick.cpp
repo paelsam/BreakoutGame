@@ -3,11 +3,14 @@
 Brick::Brick(Vector2 position, Vector2 size, Color color)
     : rectangle({position.x, position.y, size.x, size.y})
 {
+    this->sonido = LoadSound("src/assets/music/pingpongbat.ogg");
     this->active = true;
     this->color = color;
 }
 
 Brick::~Brick(){};
+
+void Brick::update(){};
 
 void Brick::draw()
 {
@@ -22,7 +25,7 @@ void Brick::collisionWith(Ball &ball)
     int top = rectangle.y; 
     int bottom = rectangle.y + rectangle.height;
 
-    // Previus position ball
+    // Previus position ball    
     int px = ball.getPosition().x - ball.getSpeed().x;
     int py = ball.getPosition().y - ball.getSpeed().y;
 
@@ -49,6 +52,7 @@ void Brick::collisionWith(Ball &ball)
             ball.setPosition({ ball.getPosition().x, bottom + ball.getRadius() });
         }
         this->active = false;
+        PlaySound(sonido);
     }
 }
 
@@ -62,4 +66,3 @@ void Brick::setColor(Color color)
     this->color = color;
 }
 
-void Brick::update(){};

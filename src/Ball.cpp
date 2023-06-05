@@ -5,7 +5,8 @@ Ball::Ball(Vector2 position, Vector2 speed, float radius, Color color) {
     this->speed = speed;
     this->radius = radius;
     this->color = color;
-    this->life=3;
+    // Sonido cuando colisiona con el paddle
+    this->sonido = LoadSound("src/assets/music/Pop.ogg");
 };
 
 void Ball::update() {
@@ -14,14 +15,16 @@ void Ball::update() {
     position.y += speed.y;
 
     // Rebotar la pelota cuando alcanza los límites de la pantalla
-    if (((position.x + radius) >= GetScreenWidth()) || ((position.x - radius) <= 0)) speed.x *= -1;
-    if ((position.y - radius) <= 0) speed.y *= -1;
+    if (((position.x + radius) >= GetScreenWidth()) || ((position.x - radius) <= 0)) {
+        speed.x *= -1;
+        PlaySound(sonido);
+    }
+    if ((position.y - radius) <= 0) {
+        speed.y *= -1;
+        PlaySound(sonido);
+    }
     if ((position.y + radius) >= GetScreenHeight()) { 
-        position.x = GetScreenWidth() / 2;
-        position.y = GetScreenHeight() / 2;
-        int speed_choices[2]={1,-1};
-        speed.x *= speed_choices[GetRandomValue(0,1)];
-        life--;
+        PlaySound(sonido);
     }
 }
 
@@ -37,12 +40,16 @@ Vector2 Ball::getPosition() {
     return this->position;
 }
 
+Vector2 Ball::getSpeed() {
+    return this->speed;
+}
+
 float Ball::getRadius() {
     return this->radius;
 }
 
-Vector2 Ball::getSpeed() {
-    return this->speed;
+bool Ball::getDownCollition(){
+    return downCollition;
 }
 
 void Ball::setPosition(Vector2 position) {
@@ -53,17 +60,4 @@ void Ball::setSpeed(Vector2 speed) {
     this->speed = speed;
 }
 
-bool Ball::getDownCollition(){
-    return downCollition;
-}
 
-int Ball::getLife(){
-    return life;
-}
-
-void Ball::setLife(int life){
-    this->life=life;
-}
-// void Ball::setDownCollition(bool downCollition){
-//     this->downCollition = downCollition;
-// }

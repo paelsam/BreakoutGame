@@ -8,6 +8,7 @@ int main() {
     const int screenHeight = 600;
 
     InitWindow(screenWidth, screenHeight, "Breakout");
+    InitAudioDevice();
     SetTargetFPS(60);
 
     GameManager game(screenWidth, screenHeight);
@@ -18,7 +19,6 @@ int main() {
 
         game.updateGame();
         game.drawGame();
-        std::cout << game.isGameWon() << std::endl;
 
         EndDrawing();
     }
