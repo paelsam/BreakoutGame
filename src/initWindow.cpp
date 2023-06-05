@@ -2,7 +2,7 @@
 
 initWindow::initWindow(){
 
-        //buttonBounds = { 100, 100, 200, 50 }; 
+
     buttonPressed = false;
     flag=false;
     buttonBounds.width = 200;
@@ -37,8 +37,11 @@ if (CheckCollisionPointRec(GetMousePosition(), buttonBounds))
 
 void initWindow::draw(){
     if (flag==false){
+    char gameOverText[49] = "WELCOME TO BREAKOUT GAME\nPress START to continue";
+    Vector2 textSize = MeasureTextEx(GetFontDefault(), gameOverText, 30, 0);
+    DrawText(gameOverText, GetScreenWidth() / 2  - textSize.x / 2, GetScreenHeight() / 2 - textSize.y / 2-200,30, GREEN);
     DrawRectangleRec(buttonBounds, buttonPressed ? DARKGREEN : LIME);
-    DrawText("INICIAR!", buttonBounds.x + 10, buttonBounds.y + 10, 20, buttonPressed ? DARKGRAY : WHITE);
+    DrawText("START!", buttonBounds.x + 70, buttonBounds.y + 20, 20, buttonPressed ? DARKGRAY : WHITE);
 
     }
     

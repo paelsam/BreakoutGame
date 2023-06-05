@@ -64,7 +64,7 @@ if(initialWindow.getFlag()){
 
    
     DrawText(TextFormat("Score: %i", this->score), 10, 10, 20, GREEN);
-    DrawText(TextFormat("Lives: %i", lives), GetScreenWidth() - 100, 10, 20, GREEN);
+    DrawText(TextFormat("Lives: %i", ball.getLife()), GetScreenWidth() - 100, 10, 20, GREEN);
     }
     else{
       char gameOverText[34] = "GAME OVER\nPress ENTER to continue";

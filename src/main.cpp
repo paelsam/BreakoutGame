@@ -6,7 +6,7 @@
 int main() {
 
     const int screenWidth = 1000;
-    const int screenHeight = 800;
+    const int screenHeight = 1000;
 
     InitWindow(screenWidth, screenHeight, "Breakout");
     SetTargetFPS(60);
