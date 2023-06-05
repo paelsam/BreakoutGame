@@ -1,6 +1,8 @@
 #include "headers/GameManager.h"
+#include "headers/initWindow.h"
 #include <raylib.h>
 #include <iostream>
+
 
 int main() {
 
@@ -11,20 +13,25 @@ int main() {
     InitAudioDevice();
     SetTargetFPS(60);
 
+
     GameManager game(screenWidth, screenHeight);
+
+    initWindow window;
 
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
-
-        game.updateGame();
+        
         game.drawGame();
+        game.updateGame();
 
         EndDrawing();
     }
-
+  
     CloseWindow();
 
     return 0;
 
 }
+
+

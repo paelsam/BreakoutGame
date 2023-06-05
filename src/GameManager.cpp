@@ -64,6 +64,7 @@ void GameManager::drawGame() {
         }
     }
 
+
     DrawText(TextFormat("Score: %i", this->score), 10, 10, 20, GREEN);
     DrawText(TextFormat("Lives: %i", this->lives), GetScreenWidth() - 100, 10, 20, GREEN);
 }
