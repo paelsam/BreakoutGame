@@ -1,17 +1,19 @@
 #include "headers/GameManager.h"
+#include <iostream>
 
 GameManager::GameManager(int screenWidth, int screenHeight) : 
     screenWidth(screenWidth),
     screenHeight(screenHeight),
-    ball((Vector2){ static_cast<int>(screenWidth / 2), static_cast<int>(screenHeight / 2) }, (Vector2){3.5, 3.5}, 10, DARKPURPLE ),
-    paddle((Vector2){ static_cast<int>(screenWidth / 2 - 50), static_cast<int>(screenHeight - 50)}, 100, 20, 4.5, DARKGRAY),
+    ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){3.5, 3.5}, 10, DARKPURPLE ),
+    paddle((Vector2){ static_cast<float>(screenWidth) / 2 - 50, static_cast<float>(screenHeight) - 50}, 100, 20, 4.5, DARKGRAY),
     bricksRows(4),
     bricksColums(20),
     lives(3)
 {
 
+    this->score = 0;
     // Bricks initialization
-    int initialDownPosition = 50;
+    int initialDownPosition = 80;
     Vector2 brickSize = { screenWidth / bricksColums, 40};
 
     for (int i = 0; i < bricksRows; i++) {
@@ -42,13 +44,19 @@ void GameManager::updateGame() {
 }
 
 void GameManager::drawGame() {
+
+    this->score += 1;
+    
     ball.draw();
     paddle.draw();
-
     for ( std::vector<Brick> brickRow : bricks) {
         for ( Brick brick : brickRow ) {
             if (brick.getActive())
                 brick.draw();
         }
     }
+
+   
+    DrawText(TextFormat("Score: %i", this->score), 10, 10, 20, GREEN);
+    DrawText(TextFormat("Lives: %i", lives), GetScreenWidth() - 100, 10, 20, GREEN);
 }

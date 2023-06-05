@@ -17,6 +17,7 @@ private:
     float bricksRows;
     float bricksColums;
     int lives;
+    int score;
 public:
     GameManager(int screenWidth, int screenHeight);
     void updateGame();
