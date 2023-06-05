@@ -1,5 +1,6 @@
 #include "headers/GameManager.h"
 #include <raylib.h>
+#include <iostream>
 
 int main() {
 
@@ -17,6 +18,7 @@ int main() {
 
         game.updateGame();
         game.drawGame();
+        std::cout << game.isGameWon() << std::endl;
 
         EndDrawing();
     }

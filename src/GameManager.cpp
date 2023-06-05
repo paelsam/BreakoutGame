@@ -6,12 +6,10 @@ GameManager::GameManager(int screenWidth, int screenHeight) :
     screenHeight(screenHeight),
     ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){3.5, 3.5}, 10, DARKPURPLE ),
     paddle((Vector2){ static_cast<float>(screenWidth) / 2 - 50, static_cast<float>(screenHeight) - 50}, 100, 20, 4.5, DARKGRAY),
-    bricksRows(4),
+    bricksRows(1),
     bricksColums(20),
     lives(3)
 {
-
-    this->score = 0;
     // Bricks initialization
     int initialDownPosition = 80;
     Vector2 brickSize = { screenWidth / bricksColums, 40};
@@ -30,6 +28,7 @@ GameManager::GameManager(int screenWidth, int screenHeight) :
 }
 
 void GameManager::updateGame() {
+    this->score = GetTime();
     for ( std::vector<Brick> &brickRow : bricks) {
         for ( Brick &brick : brickRow ) {
             // Contará la colisión solo a los ladrillos activos
@@ -44,8 +43,6 @@ void GameManager::updateGame() {
 }
 
 void GameManager::drawGame() {
-
-    this->score += 1;
     
     ball.draw();
     paddle.draw();
@@ -56,7 +53,26 @@ void GameManager::drawGame() {
         }
     }
 
-   
     DrawText(TextFormat("Score: %i", this->score), 10, 10, 20, GREEN);
     DrawText(TextFormat("Lives: %i", lives), GetScreenWidth() - 100, 10, 20, GREEN);
+}
+
+
+bool GameManager::isGameOver() {
+    if ( ball.getPosition().y >= GetScreenHeight() || lives == 0 ) 
+        return true;
+    return false;
+}
+
+bool GameManager::isGameWon() {
+    int inactiveBricks = 0;
+    for ( std::vector<Brick> brickRow : bricks) {
+        for ( Brick brick : brickRow ) {
+            if (!brick.getActive())
+                inactiveBricks += 1;
+        }
+    } if (inactiveBricks == bricksRows * bricksColums - 2)
+        return true;
+    std::cout << inactiveBricks << std::endl;
+    return false;
 }
