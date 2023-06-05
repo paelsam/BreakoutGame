@@ -1,6 +1,7 @@
 #include "Ball.h"
 #include "Paddle.h"
 #include "Brick.h"
+#include "initWindow.h"
 #include <vector>
 
 #ifndef GAMEMANAGER_H
@@ -18,6 +19,7 @@ private:
     float bricksColums;
     int lives;
     int score;
+    initWindow initialWindow;
 public:
     GameManager(int screenWidth, int screenHeight);
     void updateGame();

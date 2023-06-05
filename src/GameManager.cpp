@@ -45,6 +45,12 @@ void GameManager::updateGame() {
 
 void GameManager::drawGame() {
 
+initialWindow.draw();
+initialWindow.update();
+if(initialWindow.getFlag()){
+    if(ball.getLife()>0)
+    {
+    
     this->score += 1;
     
     ball.draw();
@@ -59,4 +65,18 @@ void GameManager::drawGame() {
    
     DrawText(TextFormat("Score: %i", this->score), 10, 10, 20, GREEN);
     DrawText(TextFormat("Lives: %i", lives), GetScreenWidth() - 100, 10, 20, GREEN);
+    }
+    else{
+      char gameOverText[34] = "GAME OVER\nPress ENTER to continue";
+        Vector2 textSize = MeasureTextEx(GetFontDefault(), gameOverText, 30, 0);
+        DrawText(gameOverText, GetScreenWidth() / 2  - textSize.x / 2, GetScreenHeight() / 2 - textSize.y / 2,30, GREEN);
+        if (IsKeyDown(KEY_ENTER))
+        {
+            ball.setLife(3);
+        }  
+    }
+
 }
+
+
+ }
