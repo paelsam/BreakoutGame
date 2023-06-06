@@ -1,5 +1,4 @@
 #include "headers/GameManager.h"
-#include "headers/initWindow.h"
 #include <raylib.h>
 #include <iostream>
 
@@ -15,8 +14,6 @@ int main() {
 
 
     GameManager game(screenWidth, screenHeight);
-
-    initWindow window;
 
     while (!WindowShouldClose()) {
         BeginDrawing();

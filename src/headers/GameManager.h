@@ -7,7 +7,7 @@ RELACIONES: Contiene todos los objetos de las clases (Ball, Paddle, Brick).
 #include "Ball.h"
 #include "Paddle.h"
 #include "Brick.h"
-#include "initWindow.h"
+#include "Window.h"
 #include <vector>
 
 #ifndef GAMEMANAGER_H
@@ -27,7 +27,9 @@ private:
     int score;
     bool gameActive = false;
 
-    initWindow initialWindow;
+    Window initialGameScene;
+    Window winnerScene;
+    Window gameOverScene;
 public:
     //Constructor.
     GameManager(int screenWidth, int screenHeight);

@@ -7,7 +7,7 @@ GameManager::GameManager(int screenWidth, int screenHeight) :
     ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){4, 4}, 10, DARKPURPLE ),
     paddle((Vector2){ static_cast<float>(screenWidth) / 2 - 50, static_cast<float>(screenHeight) - 50}, 100, 20, 7, DARKGRAY),
     bricksRows(1),
-    bricksColums(20),
+    bricksColums(3),
     lives(3)
 {
     // Bricks initialization
@@ -28,6 +28,8 @@ GameManager::GameManager(int screenWidth, int screenHeight) :
 }
 
 void GameManager::updateGame() {
+
+    this->score = GetTime();
     
     // Check brick collision with ball 
     for ( std::vector<Brick> &brickRow : bricks) {
@@ -69,7 +71,7 @@ void GameManager::drawGame() {
 
 
 bool GameManager::isGameOver() {
-    if ( lives == 0 ) 
+    if ( lives <= 0 ) 
         return true;
     return false;
 }
@@ -89,13 +91,33 @@ bool GameManager::isGameWon() {
 
 void GameManager::initGame() {
     
-
-    if ( initialWindow.getFlag() ) {
+    if ( initialGameScene.getFlag() || gameOverScene.getFlag() ) {
+        this->lives = 3;
+        this->score = 0;
         updateGame();
-        this->score = GetTime();
         drawGame();
     } else {
-        initialWindow.update();
-        initialWindow.draw();
+        initialGameScene.update();
+        char buttonText[] = "¡INICIAR!";
+        Vector2 buttonSize = MeasureTextEx(GetFontDefault(), buttonText, 20, 0);
+        winnerScene.drawButton(buttonText,  buttonSize.x * 2, buttonSize.y * 2);
+        initialGameScene.drawButton(buttonText, buttonSize.x * 2, buttonSize.y * 2);
+    }
+    
+    if ( isGameOver() ) {
+        initialGameScene.setFlag(false);
+        gameOverScene.update();
+        char buttonText[] = "REPETIR";
+        Vector2 buttonSize = MeasureTextEx(GetFontDefault(), buttonText, 20, 0);
+        gameOverScene.drawButton(buttonText, buttonSize.x * 2, buttonSize.y * 2);
+    }
+
+    if ( isGameWon() ) {
+        std::cout << isGameWon() << std::endl;
+        initialGameScene.setFlag(false);
+        gameOverScene.setFlag(false);
+        char buttonText[] = "REPETIR JUEGO";
+        Vector2 buttonSize = MeasureTextEx(GetFontDefault(), buttonText, 20, 0);
+        winnerScene.drawButton(buttonText,  buttonSize.x * 2, buttonSize.y * 2);
     }
 }
