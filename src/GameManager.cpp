@@ -88,3 +88,10 @@ bool GameManager::isGameWon() {
     std::cout << inactiveBricks << std::endl;
     return false;
 }
+
+void GameManager::initGame() {
+    initialWindow.update();
+    initialWindow.draw();
+
+    if ( initialWindow.getFlag( ))
+}

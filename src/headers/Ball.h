@@ -1,9 +1,7 @@
 /*
 CLASE: Ball
 INTENCIÓN: Representa la pelota que rebota por el escenario y destruye los ladrillos 
-
-RELACIONES:
-- Es parecido/ hereda de la clase GameObject
+RELACIÓN: Es parecido / hereda de la clase GameObject
 */
 
 #include "GameObject.h"

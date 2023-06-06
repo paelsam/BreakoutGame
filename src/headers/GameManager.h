@@ -16,13 +16,8 @@ RELACIONES: Contiene todos los objetos de las clases (Ball, Paddle, Brick).
 class GameManager
 {
 private:
-    // Ancho de la interfaz del juego.
-
     float screenWidth;
-    
-    // Alto de la interfaz del juego.
     float screenHeight;
-
     Ball ball;
     Paddle paddle;
     std::vector<std::vector<Brick>> bricks;
@@ -30,6 +25,7 @@ private:
     float bricksColums;
     int lives;
     int score;
+    bool gameActive = false;
 
     initWindow initialWindow;
 public:
@@ -47,6 +43,8 @@ public:
 
     //Saber si el jugador completa el objetivo.
     bool isGameWon();
+
+    void initGame();
 };
 
 

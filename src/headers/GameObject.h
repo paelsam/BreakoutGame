@@ -2,7 +2,6 @@
 CLASE: GameObject.
 INTENCIÓN: Es la base para las demás clases
 RELACIONES: Esta es la clase padre de (Brick, Ball, Padle)
-
 */
 #include "raylib.h"
 #ifndef GAMEOBJECT_H

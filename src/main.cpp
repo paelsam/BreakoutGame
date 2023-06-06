@@ -22,6 +22,8 @@ int main() {
         BeginDrawing();
         ClearBackground(BLACK);
         
+        
+
         game.drawGame();
         game.updateGame();
 
