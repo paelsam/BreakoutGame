@@ -5,7 +5,7 @@ initWindow::initWindow(){
         //buttonBounds = { 100, 100, 200, 50 }; 
     buttonPressed = false;
     flag=false;
-    buttonBounds.width = 200;
+    buttonBounds.width = 100;
     buttonBounds.height = 50;
     buttonBounds.x = (GetScreenWidth()- buttonBounds.width) / 2;
     buttonBounds.y = (GetScreenHeight() - buttonBounds.height) / 2;

@@ -1,7 +1,7 @@
 /*
 CLASE : Initwindow.
 INTENCIÓN: Es la pantalla de inicio para iniciar el juego.
-RELACIOÓN: Es parecido/ hereda de GameObject 
+RELACIÓN: Es parecido/ hereda de GameObject 
 
 */
 #include "GameObject.h"

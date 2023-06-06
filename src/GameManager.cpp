@@ -4,8 +4,8 @@
 GameManager::GameManager(int screenWidth, int screenHeight) : 
     screenWidth(screenWidth),
     screenHeight(screenHeight),
-    ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){3.5, 3.5}, 10, DARKPURPLE ),
-    paddle((Vector2){ static_cast<float>(screenWidth) / 2 - 50, static_cast<float>(screenHeight) - 50}, 100, 20, 4.5, DARKGRAY),
+    ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){4, 4}, 10, DARKPURPLE ),
+    paddle((Vector2){ static_cast<float>(screenWidth) / 2 - 50, static_cast<float>(screenHeight) - 50}, 100, 20, 7, DARKGRAY),
     bricksRows(1),
     bricksColums(20),
     lives(3)
@@ -28,8 +28,6 @@ GameManager::GameManager(int screenWidth, int screenHeight) :
 }
 
 void GameManager::updateGame() {
-
-    this->score = GetTime();
     
     // Check brick collision with ball 
     for ( std::vector<Brick> &brickRow : bricks) {
@@ -43,9 +41,9 @@ void GameManager::updateGame() {
     if ( ball.getPosition().y + ball.getRadius() >= GetScreenHeight() ) {
         this->lives--;
         ball.setPosition({  static_cast<float>(GetScreenWidth()) / 2, static_cast<float>(GetScreenHeight()) / 2 });
-        int speed_choices[2]={1,-1};
-        int speedX = speed_choices[GetRandomValue(0,1)];
-        ball.setSpeed({ static_cast<float>(speedX ),  ball.getSpeed().y });
+        float speed_choices[2]={1.0f,-1.0f};
+        float speedX = speed_choices[GetRandomValue(0,1)];
+        ball.setSpeed({ static_cast<float>(speedX) * ball.getSpeed().x,  ball.getSpeed().y });
     }
 
     paddle.collisionWith(ball);
@@ -90,8 +88,14 @@ bool GameManager::isGameWon() {
 }
 
 void GameManager::initGame() {
-    initialWindow.update();
-    initialWindow.draw();
+    
 
-    if ( initialWindow.getFlag( ))
+    if ( initialWindow.getFlag() ) {
+        updateGame();
+        this->score = GetTime();
+        drawGame();
+    } else {
+        initialWindow.update();
+        initialWindow.draw();
+    }
 }
