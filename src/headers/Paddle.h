@@ -28,6 +28,8 @@ class Paddle : public GameObject {
 
         //Se encarga de las colisiones de la plataforma con la pelota.
         void collisionWith(Ball &ball);
+
+        void setPosition( Vector2 position );
         
 };
 

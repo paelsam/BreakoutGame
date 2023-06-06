@@ -6,31 +6,17 @@ GameManager::GameManager(int screenWidth, int screenHeight) :
     screenHeight(screenHeight),
     ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){4, 4}, 10, DARKPURPLE ),
     paddle((Vector2){ static_cast<float>(screenWidth) / 2 - 50, static_cast<float>(screenHeight) - 50}, 100, 20, 7, DARKGRAY),
-    bricksRows(1),
-    bricksColums(3),
+    bricksRows(5),
+    bricksColums(20),
     lives(3)
 {
-    // Bricks initialization
-    int initialDownPosition = 80;
-    Vector2 brickSize = { screenWidth / bricksColums, 40};
-
-    for (int i = 0; i < bricksRows; i++) {
-        std::vector<Brick> rowBricks;
-        for (int j = 0; j < bricksColums - 2; j++) {
-            Vector2 positionBrick = {j * brickSize.x + brickSize.x, i * brickSize.y + initialDownPosition};
-            if ((i + j) % 2 == 0)
-                rowBricks.push_back(*(new Brick(positionBrick, brickSize, DARKGREEN)));
-            else
-                rowBricks.push_back(*(new Brick(positionBrick, brickSize, DARKBLUE)));
-        }
-        bricks.push_back(rowBricks);
-    }
+    this->gameState = 1;
+    this->inactiveBricks = 0;
+    initBricks();
 }
 
 void GameManager::updateGame() {
 
-    this->score = GetTime();
-    
     // Check brick collision with ball 
     for ( std::vector<Brick> &brickRow : bricks) {
         for ( Brick &brick : brickRow ) {
@@ -69,6 +55,24 @@ void GameManager::drawGame() {
     DrawText(TextFormat("Lives: %i", this->lives), GetScreenWidth() - 100, 10, 20, GREEN);
 }
 
+void GameManager::initBricks() {
+    // Bricks initialization
+    int initialDownPosition = 80;
+    Vector2 brickSize = { screenWidth / bricksColums, 40};
+
+    for (int i = 0; i < bricksRows; i++) {
+        std::vector<Brick> rowBricks;
+        for (int j = 0; j < bricksColums - 2; j++) {
+            Vector2 positionBrick = {j * brickSize.x + brickSize.x, i * brickSize.y + initialDownPosition};
+            if ((i + j) % 2 == 0)
+                rowBricks.push_back(*(new Brick(positionBrick, brickSize, DARKGREEN)));
+            else
+                rowBricks.push_back(*(new Brick(positionBrick, brickSize, DARKBLUE)));
+        }
+        bricks.push_back(rowBricks);
+    }
+}
+
 
 bool GameManager::isGameOver() {
     if ( lives <= 0 ) 
@@ -77,47 +81,84 @@ bool GameManager::isGameOver() {
 }
 
 bool GameManager::isGameWon() {
-    int inactiveBricks = 0;
     for ( std::vector<Brick> brickRow : bricks) {
         for ( Brick brick : brickRow ) {
-            if (!brick.getActive())
-                inactiveBricks += 1;
+            if (!brick.getActive()) {
+                this->inactiveBricks += 1;
+            }
         }
-    } if (inactiveBricks == bricksRows * bricksColums - 2)
+    } if (this->inactiveBricks == this->bricksRows * this->bricksColums - 2) {
         return true;
-    std::cout << inactiveBricks << std::endl;
+    }
     return false;
 }
 
+
 void GameManager::initGame() {
+
+
+
+    if ( this->gameState == 1 ) {
+        this->score = inactiveBricks;
+        drawText("BREAKOUT!", 30, 0, GREEN);
+        drawText("Juego hecho a las carreras XD", 15, 45, GREEN);
+        drawText("Hecho por:", 10, 50, GREEN);
+        if ( IsKeyPressed(KEY_ENTER) ) {
+            this->gameState = 2;
+        }
+    } 
     
-    if ( initialGameScene.getFlag() || gameOverScene.getFlag() ) {
-        this->lives = 3;
-        this->score = 0;
+    if ( this->gameState == 2 ) {
         updateGame();
         drawGame();
-    } else {
-        initialGameScene.update();
-        char buttonText[] = "¡INICIAR!";
-        Vector2 buttonSize = MeasureTextEx(GetFontDefault(), buttonText, 20, 0);
-        winnerScene.drawButton(buttonText,  buttonSize.x * 2, buttonSize.y * 2);
-        initialGameScene.drawButton(buttonText, buttonSize.x * 2, buttonSize.y * 2);
-    }
-    
-    if ( isGameOver() ) {
-        initialGameScene.setFlag(false);
-        gameOverScene.update();
-        char buttonText[] = "REPETIR";
-        Vector2 buttonSize = MeasureTextEx(GetFontDefault(), buttonText, 20, 0);
-        gameOverScene.drawButton(buttonText, buttonSize.x * 2, buttonSize.y * 2);
+        if ( isGameWon() ) {
+            this->gameState = 3;
+            std::cout << inactiveBricks << " " << bricksRows << " " << bricksColums << std::endl; 
+        }
+        else if ( isGameOver() )
+            this->gameState = 4;
     }
 
-    if ( isGameWon() ) {
-        std::cout << isGameWon() << std::endl;
-        initialGameScene.setFlag(false);
-        gameOverScene.setFlag(false);
-        char buttonText[] = "REPETIR JUEGO";
-        Vector2 buttonSize = MeasureTextEx(GetFontDefault(), buttonText, 20, 0);
-        winnerScene.drawButton(buttonText,  buttonSize.x * 2, buttonSize.y * 2);
+    if ( this->gameState == 3 ) {
+        // int actualScore = this->score;
+        drawText("HAZ GANADO!", 30, 0, GREEN);
+        if ( IsKeyPressed(KEY_SPACE) ) {
+            if ( reset() )
+                this->gameState = 2;
+        }
+    } 
+    
+    if (this->gameState == 4){
+        drawText("GAME OVER", 30, 0, GREEN);
+        if ( IsKeyPressed(KEY_SPACE) ) {
+            if ( reset() )
+                this->gameState = 2;
+        }
     }
+}
+
+void GameManager::drawText(std::string text, int fontSize , int spacing, Color color) {
+    Vector2 textSize = MeasureTextEx(GetFontDefault(), text.c_str(), fontSize, 0);
+    DrawText(text.c_str(), GetScreenWidth() / 2 - textSize.x, (GetScreenHeight() / 2 - textSize.y) + spacing, fontSize, color );
+}
+
+bool GameManager::reset() {
+    this->lives = 3;
+    this->inactiveBricks = 0;
+    this->score = this->inactiveBricks;
+
+    ball.setPosition({ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 });
+    float speed_choices[2]={1.0f,-1.0f};
+    float speedX = speed_choices[GetRandomValue(0,1)];
+    ball.setSpeed({ static_cast<float>(speedX) * ball.getSpeed().x,  ball.getSpeed().y });
+    
+    paddle.setPosition({ static_cast<float>(screenWidth) / 2 - 50, static_cast<float>(screenHeight) - 50 });
+
+    for ( std::vector<Brick> &brickRow : this->bricks) {
+        for ( Brick &brick : brickRow ) {
+            brick.setActive(true);
+            std::cout << brick.getActive() << std::endl;
+        }
+    }
+    return true;
 }

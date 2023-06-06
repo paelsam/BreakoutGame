@@ -62,3 +62,8 @@ void Paddle::collisionWith(Ball &ball) {
         PlaySound(this->sonido);
     }
 }
+
+void Paddle::setPosition( Vector2 position ) {
+    rectangle.x = position.x;
+    rectangle.y = position.y;
+}

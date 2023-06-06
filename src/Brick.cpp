@@ -61,6 +61,11 @@ bool Brick::getActive()
     return this->active;
 }
 
+void Brick::setActive( bool active ) 
+{
+    this->active = active;
+}
+
 void Brick::setColor(Color color)
 {
     this->color = color;

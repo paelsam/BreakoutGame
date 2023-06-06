@@ -8,6 +8,8 @@ RELACIONES: Contiene todos los objetos de las clases (Ball, Paddle, Brick).
 #include "Paddle.h"
 #include "Brick.h"
 #include "Window.h"
+#include <string>
+#include <iostream>
 #include <vector>
 
 #ifndef GAMEMANAGER_H
@@ -25,11 +27,8 @@ private:
     float bricksColums;
     int lives;
     int score;
-    bool gameActive = false;
-
-    Window initialGameScene;
-    Window winnerScene;
-    Window gameOverScene;
+    int gameState;
+    int inactiveBricks = 0;
 public:
     //Constructor.
     GameManager(int screenWidth, int screenHeight);
@@ -47,6 +46,14 @@ public:
     bool isGameWon();
 
     void initGame();
+
+    bool reset();
+
+    //Método para dibujar los ladrillos
+    void initBricks();
+
+    // Meotodo para dibujar texto
+    void drawText(std::string text, int fontSize, int spacing, Color color);
 };
 
 

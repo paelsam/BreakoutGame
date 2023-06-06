@@ -39,6 +39,9 @@ class Brick : public GameObject {
         //Permite asignarle un color al ladrillo
         void setColor(Color color);
 
+        // Cambiar el valor de la variable active
+        void setActive(bool active);
+
 };
 
 
