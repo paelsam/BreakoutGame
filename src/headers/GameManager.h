@@ -28,7 +28,8 @@ private:
     int lives;
     int score;
     int gameState;
-    int inactiveBricks = 0;
+    int inactiveBricks;
+    int count=0;
 public:
     //Constructor.
     GameManager(int screenWidth, int screenHeight);

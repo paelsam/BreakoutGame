@@ -16,6 +16,8 @@ class Brick : public GameObject {
         Color color;
         bool active;
         Sound sonido;
+      
+
         //! Durability - TBA 
     public: 
         //Constructor.
@@ -41,6 +43,8 @@ class Brick : public GameObject {
 
         // Cambiar el valor de la variable active
         void setActive(bool active);
+
+     
 
 };
 

@@ -6,6 +6,7 @@ Brick::Brick(Vector2 position, Vector2 size, Color color)
     this->sonido = LoadSound("src/assets/music/pingpongbat.ogg");
     this->active = true;
     this->color = color;
+   
 }
 
 Brick::~Brick(){};
@@ -52,6 +53,12 @@ void Brick::collisionWith(Ball &ball)
             ball.setPosition({ ball.getPosition().x, bottom + ball.getRadius() });
         }
         this->active = false;
+        ball.setBrickCollitons(ball.getBrickCollitions()+1);
+        std::cout<<ball.getBrickCollitions()<<std::endl;
+        
+       
+      
+
         PlaySound(sonido);
     }
 }

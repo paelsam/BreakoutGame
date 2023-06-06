@@ -7,11 +7,13 @@ GameManager::GameManager(int screenWidth, int screenHeight) :
     ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){4, 4}, 10, DARKPURPLE ),
     paddle((Vector2){ static_cast<float>(screenWidth) / 2 - 50, static_cast<float>(screenHeight) - 50}, 100, 20, 7, DARKGRAY),
     bricksRows(5),
-    bricksColums(20),
-    lives(3)
+    bricksColums(20
+    ),
+    lives(2)
+    
 {
     this->gameState = 1;
-    this->inactiveBricks = 0;
+    inactiveBricks=0;
     initBricks();
 }
 
@@ -21,8 +23,11 @@ void GameManager::updateGame() {
     for ( std::vector<Brick> &brickRow : bricks) {
         for ( Brick &brick : brickRow ) {
             // Contará la colisión solo a los ladrillos activos
-            if (brick.getActive())
+            if (brick.getActive()){
                 brick.collisionWith(ball);
+                
+            }
+                
         }
     }
 
@@ -51,7 +56,7 @@ void GameManager::drawGame() {
     }
 
 
-    DrawText(TextFormat("Score: %i", this->score), 10, 10, 20, GREEN);
+    DrawText(TextFormat("Score: %i", ball.getBrickCollitions()), 10, 10, 20, GREEN);
     DrawText(TextFormat("Lives: %i", this->lives), GetScreenWidth() - 100, 10, 20, GREEN);
 }
 
@@ -81,13 +86,16 @@ bool GameManager::isGameOver() {
 }
 
 bool GameManager::isGameWon() {
-    for ( std::vector<Brick> brickRow : bricks) {
-        for ( Brick brick : brickRow ) {
-            if (!brick.getActive()) {
-                this->inactiveBricks += 1;
-            }
-        }
-    } if (this->inactiveBricks == this->bricksRows * this->bricksColums - 2) {
+    // for ( std::vector<Brick> brickRow : bricks) {
+    //     for ( Brick brick : brickRow ) {
+    //         if (brick.getActive()) {
+
+    //             this->inactiveBricks += 1;
+    //             std::cout<<inactiveBricks<<std::endl;
+    //         }
+    //     } 
+    // }
+    if (this->ball.getBrickCollitions()== bricksRows * bricksColums-2 * bricksRows) {
         return true;
     }
     return false;
@@ -112,6 +120,7 @@ void GameManager::initGame() {
         updateGame();
         drawGame();
         if ( isGameWon() ) {
+            std::cout<<"entro"<<std::endl;
             this->gameState = 3;
             std::cout << inactiveBricks << " " << bricksRows << " " << bricksColums << std::endl; 
         }
@@ -122,7 +131,7 @@ void GameManager::initGame() {
     if ( this->gameState == 3 ) {
         // int actualScore = this->score;
         drawText("HAZ GANADO!", 30, 0, GREEN);
-        if ( IsKeyPressed(KEY_SPACE) ) {
+        if ( IsKeyPressed(KEY_ENTER) ) {
             if ( reset() )
                 this->gameState = 2;
         }
@@ -130,11 +139,11 @@ void GameManager::initGame() {
     
     if (this->gameState == 4){
         drawText("GAME OVER", 30, 0, GREEN);
-        if ( IsKeyPressed(KEY_SPACE) ) {
-            if ( reset() )
-                this->gameState = 2;
+        if ( IsKeyPressed(KEY_ENTER) ) {
+             reset();
+            this->gameState = 2;
         }
-    }
+    } 
 }
 
 void GameManager::drawText(std::string text, int fontSize , int spacing, Color color) {
@@ -143,9 +152,10 @@ void GameManager::drawText(std::string text, int fontSize , int spacing, Color c
 }
 
 bool GameManager::reset() {
-    this->lives = 3;
+    this->lives = 6;
     this->inactiveBricks = 0;
     this->score = this->inactiveBricks;
+    this->ball.setBrickCollitons(0);
 
     ball.setPosition({ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 });
     float speed_choices[2]={1.0f,-1.0f};

@@ -5,6 +5,7 @@ Ball::Ball(Vector2 position, Vector2 speed, float radius, Color color) {
     this->speed = speed;
     this->radius = radius;
     this->color = color;
+    this->brickCollitons=0;
     // Sonido cuando colisiona con el paddle
     this->sonido = LoadSound("src/assets/music/Pop.ogg");
 };
@@ -60,4 +61,11 @@ void Ball::setSpeed(Vector2 speed) {
     this->speed = speed;
 }
 
+int Ball::getBrickCollitions(){
+    return this->brickCollitons;
+}
+
+void Ball::setBrickCollitons(int brickCollitons){
+        this->brickCollitons=brickCollitons;
+}
 

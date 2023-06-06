@@ -16,7 +16,10 @@ class Ball : public GameObject {
         Color color;
         bool downCollition;
         Sound sonido;
+        int brickCollitons;
+        
     public: 
+    
         //Constructor.
         Ball(Vector2 position, Vector2 speed, float radius, Color color);
 
@@ -52,6 +55,10 @@ class Ball : public GameObject {
 
         //Permite asignarle un valor al atributo vida(life)
         void setLife(int life);
+
+        int getBrickCollitions();
+
+        void setBrickCollitons(int brickCollitions);
 
 
 };
