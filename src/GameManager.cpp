@@ -4,10 +4,10 @@
 GameManager::GameManager(int screenWidth, int screenHeight) : 
     screenWidth(screenWidth),
     screenHeight(screenHeight),
-    ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){4, 4}, 10, DARKPURPLE ),
+    ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){4, 4}, 10, WHITE ),
     paddle((Vector2){ static_cast<float>(screenWidth) / 2 - 50, static_cast<float>(screenHeight) - 50}, 100, 20, 7, DARKGRAY),
-    bricksRows(5),
-    bricksColums(20
+    bricksRows(3),
+    bricksColums(15
     ),
     lives(2)
     
@@ -70,9 +70,9 @@ void GameManager::initBricks() {
         for (int j = 0; j < bricksColums - 2; j++) {
             Vector2 positionBrick = {j * brickSize.x + brickSize.x, i * brickSize.y + initialDownPosition};
             if ((i + j) % 2 == 0)
-                rowBricks.push_back(*(new Brick(positionBrick, brickSize, DARKGREEN)));
+                rowBricks.push_back(*(new Brick(positionBrick, brickSize, BLACK)));
             else
-                rowBricks.push_back(*(new Brick(positionBrick, brickSize, DARKBLUE)));
+                rowBricks.push_back(*(new Brick(positionBrick, brickSize, WHITE)));
         }
         bricks.push_back(rowBricks);
     }

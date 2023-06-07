@@ -9,7 +9,7 @@
 //     const int screenHeight = 600;
 
 //     InitWindow(screenWidth, screenHeight, "Breakout");
-//     InitAudioDevice();
+    
 //     SetTargetFPS(60);
 
 
@@ -36,8 +36,15 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 450;
+    //InitAudioDevice();  
 
     InitWindow(screenWidth, screenHeight, "raylib [textures] example - background scrolling");
+    InitAudioDevice();
+    Sound sound = LoadSound("src/assets/music/stranger.wav");
+
+     
+
+    PlaySound(sound);
 
     // NOTE: Be careful, background width must be equal or bigger than screen width
     // if not, texture should be draw more than two times for scrolling effect
@@ -102,9 +109,70 @@ int main(void)
     UnloadTexture(background);  // Unload background texture
     UnloadTexture(midground);   // Unload midground texture
     UnloadTexture(foreground);  // Unload foreground texture
+    UnloadSound(sound);    // Texture unloading
+    
+//                     // Close window and OpenGL context
+    CloseAudioDevice();
 
     CloseWindow();              // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
     return 0;
 }
+
+// int main(void)
+// {
+//     // Initialization
+//     //--------------------------------------------------------------------------------------
+//     const int screenWidth = 1110;
+//     const int screenHeight = 850;
+
+//     InitWindow(screenWidth, screenHeight, "raylib [textures] example - texture loading and drawing");
+
+//     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
+//     Texture2D texture = LoadTexture("src/assets/images/cat.png");        // Texture loading
+//     //---------------------------------------------------------------------------------------
+//      InitAudioDevice();
+//      Sound sound = LoadSound("src/assets/music/stranger.wav");
+
+     
+
+//     PlaySound(sound);
+
+//     // Main game loop
+//     while (!WindowShouldClose())    // Detect window close button or ESC key
+//     {
+//         // Update
+//         //----------------------------------------------------------------------------------
+//         // TODO: Update your variables here
+//         //----------------------------------------------------------------------------------
+
+//         // Draw
+//         //----------------------------------------------------------------------------------
+        
+//         BeginDrawing();
+
+//             ClearBackground(RAYWHITE);
+
+//             DrawTexture(texture, screenWidth/2 - texture.width/2, screenHeight/2 - texture.height/2, WHITE);
+
+//             DrawText("this IS a texture!", 360, 370, 10, GRAY);
+
+//         EndDrawing();
+//         //----------------------------------------------------------------------------------
+//     }
+
+//     // De-Initialization
+//     //--------------------------------------------------------------------------------------
+//     UnloadTexture(texture);   
+//     UnloadSound(sound);    // Texture unloading
+    
+//                     // Close window and OpenGL context
+//     CloseAudioDevice();
+//     CloseWindow();                
+    
+//     // Close window and OpenGL context
+//     //--------------------------------------------------------------------------------------
+
+//     return 0;
+// }
