@@ -4,14 +4,14 @@
 GameManager::GameManager(int screenWidth, int screenHeight) : 
     screenWidth(screenWidth),
     screenHeight(screenHeight),
-    ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){4, 4}, 10, DARKPURPLE ),
+    ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){4, 4}, 15, DARKPURPLE ),
     paddle((Vector2){ static_cast<float>(screenWidth) / 2 - 50, static_cast<float>(screenHeight) - 50}, 100, 20, 7, DARKGRAY),
     bricksRows(5),
-    bricksColums(20
-    ),
-    lives(2)
+    bricksColums(20),
+    lives(3)
     
 {
+    this->gameOverSound = LoadSound("src/assets/music/Score.ogg");
     this->gameState = 1;
     inactiveBricks=0;
     initBricks();
@@ -25,9 +25,7 @@ void GameManager::updateGame() {
             // Contará la colisión solo a los ladrillos activos
             if (brick.getActive()){
                 brick.collisionWith(ball);
-                
             }
-                
         }
     }
 
@@ -86,18 +84,8 @@ bool GameManager::isGameOver() {
 }
 
 bool GameManager::isGameWon() {
-    // for ( std::vector<Brick> brickRow : bricks) {
-    //     for ( Brick brick : brickRow ) {
-    //         if (brick.getActive()) {
-
-    //             this->inactiveBricks += 1;
-    //             std::cout<<inactiveBricks<<std::endl;
-    //         }
-    //     } 
-    // }
-    if (this->ball.getBrickCollitions()== bricksRows * bricksColums-2 * bricksRows) {
+    if (this->ball.getBrickCollitions() == bricksRows * bricksColums-2 * bricksRows)
         return true;
-    }
     return false;
 }
 
@@ -108,9 +96,9 @@ void GameManager::initGame() {
 
     if ( this->gameState == 1 ) {
         this->score = inactiveBricks;
-        drawText("BREAKOUT!", 30, 0, GREEN);
-        drawText("Juego hecho a las carreras XD", 15, 45, GREEN);
-        drawText("Hecho por:", 10, 50, GREEN);
+        drawText("BREAKOUT!", 50, 0, GREEN);
+        drawText("Juego hecho a las carreras XD", 30, 10, GREEN);
+        drawText("Hecho por:", 20, 10, GREEN);
         if ( IsKeyPressed(KEY_ENTER) ) {
             this->gameState = 2;
         }
@@ -120,16 +108,14 @@ void GameManager::initGame() {
         updateGame();
         drawGame();
         if ( isGameWon() ) {
-            std::cout<<"entro"<<std::endl;
             this->gameState = 3;
-            std::cout << inactiveBricks << " " << bricksRows << " " << bricksColums << std::endl; 
         }
         else if ( isGameOver() )
             this->gameState = 4;
     }
 
     if ( this->gameState == 3 ) {
-        // int actualScore = this->score;
+        PlaySound(gameOverSound);
         drawText("HAZ GANADO!", 30, 0, GREEN);
         if ( IsKeyPressed(KEY_ENTER) ) {
             if ( reset() )
@@ -138,21 +124,22 @@ void GameManager::initGame() {
     } 
     
     if (this->gameState == 4){
+        PlaySound(gameOverSound);
         drawText("GAME OVER", 30, 0, GREEN);
         if ( IsKeyPressed(KEY_ENTER) ) {
-             reset();
+            reset();
             this->gameState = 2;
         }
     } 
 }
 
 void GameManager::drawText(std::string text, int fontSize , int spacing, Color color) {
-    Vector2 textSize = MeasureTextEx(GetFontDefault(), text.c_str(), fontSize, 0);
-    DrawText(text.c_str(), GetScreenWidth() / 2 - textSize.x, (GetScreenHeight() / 2 - textSize.y) + spacing, fontSize, color );
+    Vector2 textSize = MeasureTextEx(GetFontDefault(), text.c_str(), fontSize, spacing);
+    DrawText(text.c_str(), GetScreenWidth() / 2 - textSize.x / 2, (GetScreenHeight() / 2 - textSize.y / 2), fontSize, color );
 }
 
 bool GameManager::reset() {
-    this->lives = 6;
+    this->lives = 3;
     this->inactiveBricks = 0;
     this->score = this->inactiveBricks;
     this->ball.setBrickCollitons(0);

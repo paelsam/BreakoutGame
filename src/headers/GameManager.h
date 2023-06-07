@@ -7,7 +7,6 @@ RELACIONES: Contiene todos los objetos de las clases (Ball, Paddle, Brick).
 #include "Ball.h"
 #include "Paddle.h"
 #include "Brick.h"
-#include "Window.h"
 #include <string>
 #include <iostream>
 #include <vector>
@@ -30,6 +29,7 @@ private:
     int gameState;
     int inactiveBricks;
     int count=0;
+    Sound gameOverSound;
 public:
     //Constructor.
     GameManager(int screenWidth, int screenHeight);
