@@ -4,8 +4,8 @@
 GameManager::GameManager(int screenWidth, int screenHeight) : 
     screenWidth(screenWidth),
     screenHeight(screenHeight),
-    ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){4, 4}, 15, DARKPURPLE ),
-    paddle((Vector2){ static_cast<float>(screenWidth) / 2 - 50, static_cast<float>(screenHeight) - 50}, 100, 20, 7, DARKGRAY),
+    ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){4, 4}, 12, {252,255,255,255}),
+    paddle((Vector2){ static_cast<float>(screenWidth) / 2 - 50, static_cast<float>(screenHeight) - 50}, 100, 20, 7, {229,169,155,255}),
     bricksRows(5),
     bricksColums(20),
     lives(3)
@@ -54,8 +54,8 @@ void GameManager::drawGame() {
     }
 
 
-    DrawText(TextFormat("Score: %i", ball.getBrickCollitions()), 10, 10, 20, GREEN);
-    DrawText(TextFormat("Lives: %i", this->lives), GetScreenWidth() - 100, 10, 20, GREEN);
+    DrawText(TextFormat("Score: %i", ball.getBrickCollitions()), 10, 10, 20, RAYWHITE);
+    DrawText(TextFormat("Lives: %i", this->lives), GetScreenWidth() - 100, 10, 20, RAYWHITE);
 }
 
 void GameManager::initBricks() {
@@ -68,9 +68,9 @@ void GameManager::initBricks() {
         for (int j = 0; j < bricksColums - 2; j++) {
             Vector2 positionBrick = {j * brickSize.x + brickSize.x, i * brickSize.y + initialDownPosition};
             if ((i + j) % 2 == 0)
-                rowBricks.push_back(*(new Brick(positionBrick, brickSize, DARKGREEN)));
+                rowBricks.push_back(*(new Brick(positionBrick, brickSize, {85,82,103,255})));
             else
-                rowBricks.push_back(*(new Brick(positionBrick, brickSize, DARKBLUE)));
+                rowBricks.push_back(*(new Brick(positionBrick, brickSize, { 228,163,185,255 })));
         }
         bricks.push_back(rowBricks);
     }
@@ -97,8 +97,8 @@ void GameManager::initGame() {
     if ( this->gameState == 1 ) {
         this->score = inactiveBricks;
         drawText("BREAKOUT!", 50, 0, RAYWHITE);
-        drawText("Juego hecho a las carreras XD", 30, 10, RAYWHITE);
-        drawText("Hecho por:", 20, 10, RAYWHITE);
+        drawText("      Hecho por:\nElkin Angulo\nLeonardo Cuadro\nAndres Ortega\nFelipe Figueroa", 29, 100, RAYWHITE);
+
         if ( IsKeyPressed(KEY_ENTER) ) {
             this->gameState = 2;
         }
@@ -134,8 +134,8 @@ void GameManager::initGame() {
 }
 
 void GameManager::drawText(std::string text, int fontSize , int spacing, Color color) {
-    Vector2 textSize = MeasureTextEx(GetFontDefault(), text.c_str(), fontSize, spacing);
-    DrawText(text.c_str(), GetScreenWidth() / 2 - textSize.x / 2, (GetScreenHeight() / 2 - textSize.y / 2), fontSize, color );
+    Vector2 textSize = MeasureTextEx(GetFontDefault(), text.c_str(), fontSize, 0);
+    DrawText(text.c_str(), GetScreenWidth() / 2 - textSize.x / 2, (GetScreenHeight() / 2) + spacing, fontSize, color );
 }
 
 bool GameManager::reset() {
