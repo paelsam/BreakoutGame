@@ -5,6 +5,9 @@ Ball::Ball(Vector2 position, Vector2 speed, float radius, Color color) {
     this->speed = speed;
     this->radius = radius;
     this->color = color;
+    this->brickCollitons=0;
+    // Sonido cuando colisiona con el paddle
+    this->sonido = LoadSound("src/assets/music/Pop.ogg");
 };
 
 void Ball::update() {
@@ -13,11 +16,16 @@ void Ball::update() {
     position.y += speed.y;
 
     // Rebotar la pelota cuando alcanza los límites de la pantalla
-    if (position.x < 0 || position.x + radius > GetScreenWidth()) {
-        speed.x = -speed.x;
+    if (((position.x + radius) >= GetScreenWidth()) || ((position.x - radius) <= 0)) {
+        speed.x *= -1;
+        PlaySound(sonido);
     }
-    if (position.y < 0 || position.y + radius > GetScreenHeight()) {
-        speed.y = -speed.y;
+    if ((position.y - radius) <= 0) {
+        speed.y *= -1;
+        PlaySound(sonido);
+    }
+    if ((position.y + radius) >= GetScreenHeight()) { 
+        PlaySound(sonido);
     }
 }
 
@@ -33,12 +41,16 @@ Vector2 Ball::getPosition() {
     return this->position;
 }
 
+Vector2 Ball::getSpeed() {
+    return this->speed;
+}
+
 float Ball::getRadius() {
     return this->radius;
 }
 
-Vector2 Ball::getSpeed() {
-    return this->speed;
+bool Ball::getDownCollition(){
+    return downCollition;
 }
 
 void Ball::setPosition(Vector2 position) {
@@ -48,3 +60,12 @@ void Ball::setPosition(Vector2 position) {
 void Ball::setSpeed(Vector2 speed) {
     this->speed = speed;
 }
+
+int Ball::getBrickCollitions(){
+    return this->brickCollitons;
+}
+
+void Ball::setBrickCollitons(int brickCollitons){
+        this->brickCollitons=brickCollitons;
+}
+
