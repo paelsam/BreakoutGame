@@ -46,6 +46,7 @@ void Brick::collisionWith(Ball &ball)
             if ( ball.getSpeed().y > 0)
                 ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
             ball.setPosition({ ball.getPosition().x, top - ball.getRadius() });
+            PlaySound(sonido);
         }
         else if ( py > bottom ) {
             if ( ball.getSpeed().y < 0 )
@@ -54,12 +55,7 @@ void Brick::collisionWith(Ball &ball)
         }
         this->active = false;
         ball.setBrickCollitons(ball.getBrickCollitions()+1);
-        std::cout<<ball.getBrickCollitions()<<std::endl;
         
-       
-      
-
-        PlaySound(sonido);
     }
 }
 

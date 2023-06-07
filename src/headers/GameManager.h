@@ -30,6 +30,7 @@ private:
     int inactiveBricks;
     int count=0;
     Sound gameOverSound;
+    bool flag;
 public:
     //Constructor.
     GameManager(int screenWidth, int screenHeight);
