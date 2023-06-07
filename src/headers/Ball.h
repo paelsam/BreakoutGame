@@ -44,22 +44,15 @@ class Ball : public GameObject {
         //Dice si la pelota colisionó con la parte inferior de la pantalla.
         bool getDownCollition();
 
-        //Retorna cuántas vidas lleva la pelota.
-        int getLife();
-
         //Permite asignarle un valor al atributo posición(position)
         void setPosition(Vector2 position);
 
         //Permite asignarle un valor al atributo rapidez(speed)
         void setSpeed(Vector2 speed);
 
-        //Permite asignarle un valor al atributo vida(life)
-        void setLife(int life);
-
         int getBrickCollitions();
 
         void setBrickCollitons(int brickCollitions);
-
 
 };
 

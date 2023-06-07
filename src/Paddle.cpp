@@ -50,6 +50,7 @@ void Paddle::collisionWith(Ball &ball) {
             ball.setPosition({ right + ball.getRadius(), ball.getPosition().y });
         }
         else if ( py < top ) {
+            PlaySound(this->sonido);
             if ( ball.getSpeed().y > 0)
                 ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
             ball.setPosition({ ball.getPosition().x, top - ball.getRadius() });
@@ -59,7 +60,6 @@ void Paddle::collisionWith(Ball &ball) {
                 ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
             ball.setPosition({ ball.getPosition().x, bottom + ball.getRadius() });
         }
-        PlaySound(this->sonido);
     }
 }
 

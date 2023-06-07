@@ -6,7 +6,6 @@ Brick::Brick(Vector2 position, Vector2 size, Color color)
     this->sonido = LoadSound("src/assets/music/pingpongbat.ogg");
     this->active = true;
     this->color = color;
-   
 }
 
 Brick::~Brick(){};
@@ -46,13 +45,13 @@ void Brick::collisionWith(Ball &ball)
             if ( ball.getSpeed().y > 0)
                 ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
             ball.setPosition({ ball.getPosition().x, top - ball.getRadius() });
-            PlaySound(sonido);
         }
         else if ( py > bottom ) {
             if ( ball.getSpeed().y < 0 )
                 ball.setSpeed({ ball.getSpeed().x, -ball.getSpeed().y });
             ball.setPosition({ ball.getPosition().x, bottom + ball.getRadius() });
         }
+        PlaySound(sonido);
         this->active = false;
         ball.setBrickCollitons(ball.getBrickCollitions()+1);
         

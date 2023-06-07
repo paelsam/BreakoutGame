@@ -23,6 +23,8 @@ int main() {
     PlaySound(sound);
 
     while (!WindowShouldClose()) {
+        SetSoundVolume(sound, 0.3);
+        
         BeginDrawing();
             ClearBackground(RAYWHITE);
 
