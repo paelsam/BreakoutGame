@@ -4,8 +4,8 @@
 GameManager::GameManager(int screenWidth, int screenHeight) : 
     screenWidth(screenWidth),
     screenHeight(screenHeight),
-    ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){4, 4}, 15, DARKPURPLE ),
-    paddle((Vector2){ static_cast<float>(screenWidth) / 2 - 50, static_cast<float>(screenHeight) - 50}, 100, 20, 7, DARKGRAY),
+    ball((Vector2){ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 }, (Vector2){4, 4}, 15,WHITE ),
+    paddle((Vector2){ static_cast<float>(screenWidth) / 2 - 50, static_cast<float>(screenHeight) - 50}, 100, 20, 7, BLACK),
     bricksRows(5),
     bricksColums(20),
     lives(3)
@@ -14,6 +14,7 @@ GameManager::GameManager(int screenWidth, int screenHeight) :
     this->gameOverSound = LoadSound("src/assets/music/Score.ogg");
     this->gameState = 1;
     inactiveBricks=0;
+    flag=true;
     initBricks();
 }
 
@@ -54,8 +55,8 @@ void GameManager::drawGame() {
     }
 
 
-    DrawText(TextFormat("Score: %i", ball.getBrickCollitions()), 10, 10, 20, GREEN);
-    DrawText(TextFormat("Lives: %i", this->lives), GetScreenWidth() - 100, 10, 20, GREEN);
+    DrawText(TextFormat("Score: %i", ball.getBrickCollitions()), 10, 10, 20, RAYWHITE);
+    DrawText(TextFormat("Lives: %i", this->lives), GetScreenWidth() - 100, 10, 20, RAYWHITE);
 }
 
 void GameManager::initBricks() {
@@ -68,9 +69,9 @@ void GameManager::initBricks() {
         for (int j = 0; j < bricksColums - 2; j++) {
             Vector2 positionBrick = {j * brickSize.x + brickSize.x, i * brickSize.y + initialDownPosition};
             if ((i + j) % 2 == 0)
-                rowBricks.push_back(*(new Brick(positionBrick, brickSize, DARKGREEN)));
+                rowBricks.push_back(*(new Brick(positionBrick, brickSize, BLACK)));
             else
-                rowBricks.push_back(*(new Brick(positionBrick, brickSize, DARKBLUE)));
+                rowBricks.push_back(*(new Brick(positionBrick, brickSize, GRAY)));
         }
         bricks.push_back(rowBricks);
     }
@@ -96,9 +97,8 @@ void GameManager::initGame() {
 
     if ( this->gameState == 1 ) {
         this->score = inactiveBricks;
-        drawText("BREAKOUT!", 50, 0, RAYWHITE);
-        drawText("Juego hecho a las carreras XD", 30, 10, RAYWHITE);
-        drawText("Hecho por:", 20, 10, RAYWHITE);
+        drawText("BREAKOUT GAME", 50, 0, RAYWHITE);
+        
         if ( IsKeyPressed(KEY_ENTER) ) {
             this->gameState = 2;
         }
@@ -115,8 +115,12 @@ void GameManager::initGame() {
     }
 
     if ( this->gameState == 3 ) {
-        PlaySound(gameOverSound);
-        drawText("HAZ GANADO!", 30, 0, RAYWHITE);
+        if(flag){
+            PlaySound(gameOverSound);
+            flag=false;
+        }
+        
+        drawText("yOU WON!", 30, 0, RAYWHITE);
         if ( IsKeyPressed(KEY_ENTER) ) {
             if ( reset() )
                 this->gameState = 2;
@@ -124,8 +128,12 @@ void GameManager::initGame() {
     } 
     
     if (this->gameState == 4){
-        PlaySound(gameOverSound);
+        if(flag){
+            PlaySound(gameOverSound);
+            flag=false;}
+        
         drawText("GAME OVER", 30, 0, RAYWHITE);
+
         if ( IsKeyPressed(KEY_ENTER) ) {
             reset();
             this->gameState = 2;
@@ -143,6 +151,7 @@ bool GameManager::reset() {
     this->inactiveBricks = 0;
     this->score = this->inactiveBricks;
     this->ball.setBrickCollitons(0);
+    this->flag=true;
 
     ball.setPosition({ static_cast<float>(screenWidth) / 2, static_cast<float>(screenHeight) / 2 });
     float speed_choices[2]={1.0f,-1.0f};

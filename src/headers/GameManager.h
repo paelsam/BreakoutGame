@@ -29,6 +29,7 @@ private:
     int gameState;
     int inactiveBricks;
     int count=0;
+    bool flag;
     Sound gameOverSound;
 public:
     //Constructor.
