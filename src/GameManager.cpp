@@ -96,9 +96,9 @@ void GameManager::initGame() {
 
     if ( this->gameState == 1 ) {
         this->score = inactiveBricks;
-        drawText("BREAKOUT!", 50, 0, GREEN);
-        drawText("Juego hecho a las carreras XD", 30, 10, GREEN);
-        drawText("Hecho por:", 20, 10, GREEN);
+        drawText("BREAKOUT!", 50, 0, RAYWHITE);
+        drawText("Juego hecho a las carreras XD", 30, 10, RAYWHITE);
+        drawText("Hecho por:", 20, 10, RAYWHITE);
         if ( IsKeyPressed(KEY_ENTER) ) {
             this->gameState = 2;
         }
@@ -116,7 +116,7 @@ void GameManager::initGame() {
 
     if ( this->gameState == 3 ) {
         PlaySound(gameOverSound);
-        drawText("HAZ GANADO!", 30, 0, GREEN);
+        drawText("HAZ GANADO!", 30, 0, RAYWHITE);
         if ( IsKeyPressed(KEY_ENTER) ) {
             if ( reset() )
                 this->gameState = 2;
@@ -125,7 +125,7 @@ void GameManager::initGame() {
     
     if (this->gameState == 4){
         PlaySound(gameOverSound);
-        drawText("GAME OVER", 30, 0, GREEN);
+        drawText("GAME OVER", 30, 0, RAYWHITE);
         if ( IsKeyPressed(KEY_ENTER) ) {
             reset();
             this->gameState = 2;

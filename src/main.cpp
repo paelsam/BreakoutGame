@@ -12,25 +12,28 @@ int main() {
     InitAudioDevice();
     SetTargetFPS(60);
 
+    Sound sound = LoadSound("src/assets/music/stranger.wav");
+
+
     Image image = LoadImage("src/assets/images/background.png");
     Texture2D background = LoadTextureFromImage(image);
     UnloadImage(image);
 
-
-
     GameManager game(screenWidth, screenHeight);
+    PlaySound(sound);
 
     while (!WindowShouldClose()) {
         BeginDrawing();
             ClearBackground(RAYWHITE);
 
-            DrawTexture(background, screenWidth/2 - background.width / 2, screenHeight/2 - background.height / 2, WHITE);
+            DrawTexture(background, screenWidth/2 - background.width / 2, screenHeight/2 - background.height / 2, RAYWHITE);
 
             game.initGame();
 
         EndDrawing();
     }
 
+    UnloadSound(sound);
     UnloadTexture(background);
     CloseWindow();
 
